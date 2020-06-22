@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.cannes.movie.domain.SeatVO;
 import com.cannes.movie.domain.TicketVO;
 import com.cannes.movie.persistance.ScheduleDAOImple;
 
@@ -25,7 +26,7 @@ import com.cannes.movie.persistance.ScheduleDAOImple;
 public class SqlScheduleTest {
 	private static final Logger logger = LoggerFactory.getLogger(SqlScheduleTest.class);
 	// board-mapper의 namespace와 아래의 NAMESPACE가 같아야함
-	private static final String NAMESPACE = "com.cannes.movie.TicketMapper";
+	private static final String NAMESPACE = "com.cannes.movie.SeatMapper";
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -45,18 +46,29 @@ public class SqlScheduleTest {
 //			e.printStackTrace();
 //		}
 //		System.out.println(date);
-		TicketVO vo = new TicketVO(0 ,4, 3, "212", 4000, "성인 2,청소년 2");
-		logger.info("이전 : " + vo.getTicketNo());
-		Integer result = sqlSession.insert(NAMESPACE + ".ticketInsert", vo);
+//		TicketVO vo = new TicketVO(0 ,4, 3, "212", 4000, "성인 2,청소년 2");
+//		logger.info("이전 : " + vo.getTicketNo());
+//		Integer result = sqlSession.insert(NAMESPACE + ".ticketInsert", vo);
 //		List<Integer> list = sqlSession.selectList(NAMESPACE + ".ticketInsert", vo);
-		logger.info("결과 : " + result);
+//		logger.info("결과 : " + result);
 		
-		logger.info("결과 : " + vo.getTicketNo());
+//		logger.info("결과 : " + vo.getTicketNo());
 		/*
 		 * for(int i : list) { System.out.println(i); }
 		 */
-		
-		
+		int ch = 0;
+		SeatVO vo = null;
+		for(int i = 21; i<= 27; i++) {		
+			for(int j =0; j<8; j++) {
+				ch = 65 + j;			
+				String row = String.valueOf(Character.toChars(ch));
+				for(int c=1; c<=15; c++) {
+					vo = new SeatVO(0, i,row, c, "Y");
+					int result = sqlSession.insert(NAMESPACE +".seatInsert", vo);
+					System.out.println(result);
+				}
+			}			
+		}
 		
 		
 //		Date date11 = new Date();
