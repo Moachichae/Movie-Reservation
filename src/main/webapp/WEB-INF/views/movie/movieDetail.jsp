@@ -18,19 +18,21 @@
 					</div>
 				</div>
 				<div class="movie-bx clearfix">
-					<div align="center" class="info">
-						<p class="tit"  movie-no ="${movieDetail.movieNo }">${movieDetail.movieTitle }</p>
-						<p class="type">${movieDetail.movieType }</p>
-						<c:choose>
-							<c:when test="${movieDetail.movieAge != 0 } ">
-								<p class="age">${movieDetail.movieAge }</p>
-							</c:when>
-							<c:otherwise>
-								<p class="age">All</p>
-							</c:otherwise>
-						</c:choose>
-
+					<div class="info">
+						<div class="info-setting">
+							<p class="tit"  movie-no ="${movieDetail.movieNo }">${movieDetail.movieTitle }</p>
+							<p class="type">${movieDetail.movieType }</p>
+							<c:choose>
+								<c:when test="${movieDetail.movieAge != 0 } ">
+									<p class="age">${movieDetail.movieAge }</p>
+								</c:when>
+								<c:otherwise>
+									<p class="age">All</p>
+								</c:otherwise>
+							</c:choose>
+						</div>
 						<div class="movie-bottom">
+							<a class="reserve-movie" href="/booking">예매</a>
 							<p class="director">${movieDetail.movieDirector }</p>
 							<fmt:formatDate value="${movieDetail.movieDate }"
 								pattern="yyyy.MM.dd" var="regdate" />
@@ -102,18 +104,22 @@
 		</div>
 	</div>
 
-
+	<input type="hidden" id="page-no">
 	<jsp:include page="../footer.jsp"></jsp:include>
 
 
 	<script type="text/javascript">
 		$(function() {			
 			let page = 1;
+			$('#page-no').val(page);
 			getReplies(page);		
 			
 			$(document).on('click','#pager li a' ,function(){
 				event.preventDefault();
-				page = $(this).attr('href');
+				
+				page = $(this).attr('href'); // 페이지 번호 가져오기
+				
+				
 				console.log(page);
 				getReplies(page);				
 			}); // end delete-btn click()		
@@ -129,9 +135,12 @@
 									let replyContent = "";
 									let pageNoContent = "";
 									let date = "";
-
-									const pageMaker = jsonData[0].pageMaker;
+									
+									const pageMaker = jsonData[0].pageMaker; // jsonData 0번째 순서에 페이지 정보가 담겨져서 옴
 									console.log(pageMaker);
+									
+									let page = pageMaker.page;
+									$('#page-no').val(page); // 페이지 입력
 									
 									let totalCount = pageMaker.totalCount;
 									
@@ -158,7 +167,7 @@
 
 									if (pageMaker.hasPrev) {
 										pageNoContent += '<li><a href="'
-												+ (pageMaker.startPageNo - 1)
+												+ (pageMaker.criteria.page - 1)
 												+ '">이전</a></li>';
 									}
 									for (let i = pageMaker.startPageNo; i <= pageMaker.endPageNo; i++) {
@@ -167,7 +176,7 @@
 									}
 									if (pageMaker.hasNext) {
 										pageNoContent += '<li><a href="'
-												+ (pageMaker.endPageNo - 1)
+												+ (pageMaker.criteria.page + 1)
 												+ '">다음</a></li>';
 									}
 
@@ -200,7 +209,11 @@
 				let userId = $('#user-id p').text();
 				let movieNo = $('.tit').attr('movie-no');
 				if(userId == 'Cannes'){
-					alert('로그인이 필요합니다.')
+					 if (confirm("로그인 하시겠습니까??") == true){    //확인
+						 $("#login").trigger('click');
+					 }else{   //취소
+					     return false;
+					 }
 				}else{
 					$('#reply-insert-content').html('<input id="content-input" type="text" maxlength="75" placeholder="70자 작성가능">');
 					$('#content-input').focus();
@@ -257,7 +270,9 @@
 			  	    }); // end ajax()
 			}); // end reply-input-btn click()
 			
-			
+			$(document).on('click','.delete-btn' ,function(){
+				
+			}); // end click
 			
 		}); // end document()
 	</script>

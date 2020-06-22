@@ -10,14 +10,14 @@
 </head>
 <body>
 	<jsp:include page="../header.jsp"></jsp:include>
-	<!-- container -->
-	<div class="container" align="center">
 	<div class="sub-location">
 		<div class="sub-location-inner">
 			<i class="material-icons">&#xe88a;</i>
 			<p>> 영화 > 전체영화</p>
 		</div>
 	</div>
+	<!-- container -->
+	<div class="container" align="center">
 		<p id="movie-title">전체 영화</p>
 		<!-- movie-conunt -->
 		<div class="movie-count">
@@ -67,6 +67,15 @@
 	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script type="text/javascript">
+		window.onpageshow = function(event) {
+	
+			// Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+		    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+		    	// 페이지를 새로고침
+				window.location.reload();
+		    }
+		}
+
 		$(document).ready(function() {
 			fn_more_valid();
 			fn_movie_cnt();

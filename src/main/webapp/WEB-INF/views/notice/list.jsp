@@ -68,7 +68,7 @@
 		<form id="pagingForm" style="display: none;">
 			<input type="text" id="pageNum" name="page" value="${pageMaker.criteria.page }" />
 			<input type="text" name="noticeNo" />
-			<input type="text" name="keyword" />
+			<input id="keywordBox" type="text" name="keyword" />
 		</form>
 	</div>
 	
@@ -189,6 +189,7 @@
 				let frm = "";
 				if(idCheck == "pagingForm") {
 					frm = $('#pagingForm'); // id가 pagingForm인 객체 정보 저장
+					$("input").remove("#keywordBox");
 				} else {
 					var keyword = $("#searchTitle").val();
 					frm = $('#pagingSearch');

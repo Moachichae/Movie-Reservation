@@ -143,7 +143,7 @@
 
 							// 비밀번호 형식이 맞는지 확인
 							function fn_pwCheck(inputPw) {
-								var regPw = /^[A-Za-z0-9`\-=\\\[\];",\./~!@#\$%\^&\*\(\)_\+|\{\}:"<>\?]{8,16}$/;
+								var regPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
 								return regPw.test(inputPw);
 							} // end fn_pWCheck()
 

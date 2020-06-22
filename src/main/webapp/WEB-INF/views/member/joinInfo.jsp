@@ -54,7 +54,7 @@
 					<tr>
 						<th>생년월일</th>
 						<td>
-							<input id="birth" type="date" min="1920-01-01" max="2020-12-31" required />
+							<input id="birth" type="text" placeholder="생년월일 앞 8자리" required />
 							<label id="birthResult"></label>
 						</td>
 					</tr>
@@ -172,8 +172,14 @@
 					$("#birthResult").text("필수 사항입니다.");
 					flags.birthflag = false;
 				} else {
-					$("#birthResult").text("");
-					flags.birthflag = true;
+					
+					if(fn_birthCheck(birth, 8)) {
+						$("#birthResult").text("");
+						flags.birthflag = true;
+					} else {
+						$("#birthResult").text("생년월일을 정확히 입력해주세요.");
+						flags.birthflag = false;
+					}
 				}
 				//user.memberBirth = birth;
 				if(btnJoinCheck(flags)) {
@@ -265,7 +271,7 @@
 						$("#pswd1").focus();
 					}
 				}
-			}); // end #id.blur()
+			}); // end #id.keyup()
 			
 			// pswd1에 입력이 발생
 			$("#pswd1").on("keyup", function(e) {
@@ -337,7 +343,7 @@
 						$("#email").focus();
 					}
 				}
-			}); // end #pswd2.blur()
+			}); // end #pswd2.keyup()
 
 			// 이메일에 입력이 발생
 			$("#email").on("keyup", function(e) {
@@ -367,7 +373,7 @@
 						$("#btn-join").click();
 					}
 				}
-			}); // end #email.blur()
+			}); // end #email.keyup()
 
 			// 회원가입 버튼 클릭했을때
 			$("#btn-join").click(function() {
@@ -429,6 +435,7 @@
 					},
 					success : function(result) {
 						if (result == "success") {
+							$("#idResult").css("color", "blue");
 							$("#idResult").text("사용 가능한 아이디입니다.");
 							flags.idflag = true;
 						} else if (result == "fail") {
@@ -441,7 +448,7 @@
 
 			function isPw(pw) {
 				// 영문, 숫자, 특수문자 조합 8~16자리
-				var regPw = /^[A-Za-z0-9`\-=\\\[\];",\./~!@#\$%\^&\*\(\)_\+|\{\}:"<>\?]{8,16}$/;
+				var regPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
 				return regPw.test(pw);
 			}
 
@@ -450,7 +457,66 @@
 				var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 				return regEmail.test(email);
 			}
+			
+			// 생년월일 판단 메소드
+			function fn_birthCheck(birth, length) {
+				console.log(birth);
+				console.log(length);
+				
+				try	{
+					var year  = 0;
+					var month = 0;
+					var day   = 0;
 
+					birth = birth.replace(/-/g,"");
+
+					// 생년월일이 8자리가 아닐 경우
+					if( isNaN(birth) || birth.length < 8 || birth.length > 8) {
+						return false;
+					}
+					
+					// 생년월일이 8자리일 경우
+					if(birth.length == 8){
+						year  = Number(birth.substring(0, 4));
+						month = Number(birth.substring(4, 6));
+						day   = Number(birth.substring(6, 8));
+						
+						console.log(year);
+						console.log(month);
+						console.log(day);
+						
+						// 현재 연도를 저장
+						var currentYear = Number(new Date().getFullYear());
+						//입력연도가 현재연도보다 클 경우
+						if(currentYear < year){
+							return false;
+						}
+					} else {
+						return false;
+					}
+
+					if( month<1 || month>12 ) {
+						return false;
+					}
+
+					var maxDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+					var maxDay = maxDaysInMonth[month-1];
+
+					// 윤년 체크
+					if( month==2 && ( year%4==0 && year%100!=0 || year%400==0 ) ) {
+						maxDay = 29;
+					}
+
+					if( day <= 0 || day > maxDay ) {
+						return false;
+					}
+					return true;
+
+				} catch (err) {
+					return false;
+				}
+			} // end fn_birthCheck()
+			
 			function btnJoinCheck(flags) {
 				// flag가 모두 true면 버튼 활성화
 				if (flags.nameflag == true

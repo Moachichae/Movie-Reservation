@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../common.jsp"></jsp:include>
 <link rel="stylesheet" href="/resources/css/main.css">
-<link rel="stylesheet" href="/resources/css/booking_form.css">
-<link rel="stylesheet" href="/resources/css/booking_main.css">
+<link rel="stylesheet" href="/resources/css/myInfo.css">
 <link rel="shortcut icon" href="/resources/img/shortCut.png">
 </head>
 <body>
@@ -27,7 +26,7 @@
 		<div class="content">
 		<p id="title">회원정보</p>
 		<div class="input-pswd">
-			<form id="infoFrm" method="post">
+			<form id="infoFrm" method="post" onsubmit="return false">
 				<strong>회원님의 개인정보 보호를 위해 비밀번호를 입력하셔야 합니다.</strong>
 				<span>Cannes 로그인 시 사용하시는 비밀번호를 입력해 주세요.</span>
 				<input type="hidden" id="confirmId" name="memberId" value="${memberId }">
@@ -44,7 +43,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			// 비밀번호의 값을 확인 
-			$("#confirmPw").on("keyup", function(e) {
+			$("#confirmPw").on("keyup", function() {
 				var pw = $("#confirmPw").val();
 				var regempty = / /gi;
 				
@@ -53,10 +52,6 @@
 					if(regempty.test($(this).val())) {
 						var value = $(this).val().replace(/ /gi,"");
 						$("#confirmPw").val(value);
-					} else {
-						if(e.keyCode == 13) {
-							$("#pswdSubmit").click();
-						}
 					}
 				}
 			}); // end confirmPw keyup()
@@ -88,7 +83,9 @@
 							console.log(result);
 							console.log(status);
 							if(result != null && status == "success") {
+								console.log("성공");
 								let url = "/mypage/user";
+								$("#infoFrm").attr("onsubmit", "return true");
 								$("#infoFrm").attr("action", url);
 								$("#infoFrm").submit();
 							} else {

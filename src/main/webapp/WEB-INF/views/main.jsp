@@ -86,10 +86,10 @@
 			<h2 class="font-anton">MOVIE AD</h2>
 			<div id="movieAdVideo" class="clearfix">
 				<iframe id="youtube" width="700" height="400"
-					src="https://www.youtube.com/embed/a3WjIeVaUws" frameborder="0"
+					src="https://www.youtube.com/embed/1JsvqaWd_2U" frameborder="0"
 					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 					allowfullscreen></iframe>
-				<img id="poster" alt="포스터" src="resources/img/images.jpg">
+				<img id="poster" alt="포스터" src="resources/img/MovieAd.jpg">
 			</div>
 		</div>
 		<!-- // 영화 광고 -->

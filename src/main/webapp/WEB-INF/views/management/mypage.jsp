@@ -62,10 +62,18 @@
 							<img alt="poster" src="${bookingVO.moviePoster }">
 						</div>
 						<div class = "booking-info">
-						
 							<div class = "payment-date">결제일시: ${payRegDate }
-							<c:if test="${sysDate <= scheduleRegDate}"><c:if test="${sysTime <= bookingVO.scheduleTime }">
-							<button class="booking-cancel" id="${bookingVO.payNo}" value="${bookingVO.seatNo}">예매취소</button></c:if></c:if></div>
+							<c:choose>
+								<c:when test="${sysDate == scheduleRegDate}">
+									<c:if test="${sysTime < bookingVO.scheduleTime }">
+										<button class="booking-cancel" id="${bookingVO.payNo}" value="${bookingVO.seatNo}">예매취소</button>
+									</c:if>
+								</c:when>
+								<c:when test="${sysDate < scheduleRegDate}">
+									<button class="booking-cancel" id="${bookingVO.payNo}" value="${bookingVO.seatNo}">예매취소</button>
+								</c:when>
+							</c:choose>
+							</div>
 							
 							<div class= "ticket-no">예매번호: ${bookingVO.ticketNo } </div>
 							<div class="movie-info">

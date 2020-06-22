@@ -2,7 +2,7 @@
 
 button:hover{background:#f0f0f0;}
 button:focus {outline: none !important;}
-
+.date-text:hover{width: 39px; height:5px; background-color: gray;}
 .reservation-date {
 	position: relative;
 	height: 40px;
@@ -193,6 +193,16 @@ list{
 }
 
 
+
+.choice-btn #date-choice{
+	background-color: gray;
+	width: 39px; height:5px; 
+}
+
+#day-choice{
+	background-color: gray;
+	width: 39px; height:5px; 
+}
 
 
 

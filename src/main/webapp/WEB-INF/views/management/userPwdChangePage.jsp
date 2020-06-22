@@ -32,12 +32,8 @@
 			<table class="pwd-form">
 				<tbody>
 					<tr>
-						<th>현재 비밀번호</th>
-						<td><input type="password" id="currentPwd"></td>
-					</tr>
-					<tr>
 						<th>새 비밀번호</th>
-						<td><input type="password" id="newPwd">&nbsp; ※ 영문, 숫자, 특수문자 중 2가지 이상 조합하여 8자리 이상으로 입력 해 주세요.</td>
+						<td><input type="password" id="newPwd">&nbsp; ※ 영문, 숫자, 특수문자를 조합하여 8~16자리로 입력 해 주세요.</td>
 					</tr>
 					<tr>
 						<th>새 비밀번호 재입력</th>
@@ -63,24 +59,6 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
-			// 현재 비밀번호 입력
-			$("#currentPwd").on("keyup", function(e) {
-				var pwd = $("#currentPwd").val();
-				var regempty = / /gi;
-				
-				if(pwd != "") {
-					// 입력된 내용이 공백이라면 제거
-					if(regempty.test($(this).val())) {
-						var value = $(this).val().replace(/ /gi,"");
-						$("#currentPwd").val(value);
-					} else {
-						if(e.keyCode == 13) {
-							$("#newPwd").focus();
-						}
-					}
-				}
-			}); // end currentPwd keyup()
-			
 			// 새 비밀번호에 입력
 			$("#newPwd").on("keyup", function(e) {
 				var newPwd = $("#newPwd").val();
@@ -99,6 +77,10 @@
 				}
 			}); // end newPwd keyup()
 			
+			$("#cancel").click(function() {
+				location.href="/mypage";
+			}); //end cancel click()
+			
 			// 새 비밀번호 재입력에 입력
 			$("#newPwdCheck").on("keyup", function(e) {
 				var pwdCheck = $("#newPwdCheck").val();
@@ -114,39 +96,13 @@
 			}); // end newPwdCheck keyup()
 			
 			$("#pwdUpdate").click(function() {
-				var pwd = $("#currentPwd").val();
 				var newPwd = $("#newPwd").val();
 				var pwdCheck = $("#newPwdCheck").val();
 				
-				if(pwd != "") {
-					
 					// 새 비밀번호와 확인의 형식 체크
 					if(pwRegCheck(newPwd) && pwRegCheck(pwdCheck)) {
 						// 새 비밀번호와 확인이 같은지 체크
 						if(newPwd == pwdCheck) {
-							/* 
-							
-							
-							
-							
-							
-							
-							
-							
-									자바스크립트 세션 가져와서 사용하는 방법 알아보기
-							
-							
-							
-									
-							
-							
-							
-							
-							*/
-							var session = window.sessionStorage.getItem("confirmPw");
-							console.log(session);
-							// 현재 비밀번호가 맞는지 체크
-							if(confirm == pwd) {
 								var data = {
 										"memberPw" : newPwd
 								};
@@ -159,30 +115,29 @@
 										 "Content-Type": "application/json",
 									     "X-HTTP-Method-Override" : "PUT"
 									},
-									success : function(result) {
-										alert("하이?");
+									success : function(result, status) {
+										if(result == 1 && status == "success") {
+											alert("비밀번호가 변경되었습니다.");
+											location.href="/main";
+										} else {
+											alert("새로고침 후 다시 시도해주세요.");
+										}
 									},
 									error : function(request, status, error) {
 								    	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 									}
 								}); // end ajax()
-							} else {
-								alert("현재 비밀번호가 일치하지 않습니다.");
-							}
 						} else {
 							alert("새 비밀번호가 일치하지 않습니다.");
 						}
 					} else {
 						alert("비밀번호 형식이 아닙니다.");
 					}
-				} else {
-					alert("현재 비밀번호를 입력해주세요.")
-				}
 			}); // end pwdUpdate click()
 			
 			// 비밀번호 형식 체크
 			function pwRegCheck(pw) {
-				var regPw = /^[A-Za-z0-9`\-=\\\[\];",\./~!@#\$%\^&\*\(\)_\+|\{\}:"<>\?]{8,16}$/;
+				var regPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
 				return regPw.test(pw);
 			} // end pwRegCheck()
 			

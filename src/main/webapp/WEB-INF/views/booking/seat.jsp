@@ -329,7 +329,7 @@ $(function(){
 				comma = ", ";
 			}
 			const personnel = adult + comma + teen;
-			const money = (teenNo * 100) + (adultNo * 10000)
+			const money = (teenNo * 8000) + (adultNo * 10000)
 			$("#money").val(money);			
 			$("#money").html(numberWithCommas(money));
 			$("#personnel span").html(personnel);
@@ -392,9 +392,12 @@ $(function(){
 				if(money == 0 || peopleNo != 0){
 					alert('좌석을 선택해 주세요');
 				}else if(memberId == ""){
-					alert("로그인이 필요합니다.");
-				}else{
-					
+					 if (confirm("로그인 하시겠습니까??") == true){    //확인
+						 $("#login").trigger('click');
+					 }else{   //취소
+					     return false;
+					 }
+				}else{					
 					payment(money);
 				}
 				

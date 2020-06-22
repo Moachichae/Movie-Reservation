@@ -12,10 +12,6 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
-
-
-
 </head>
 
 <body>
@@ -86,7 +82,7 @@
 									<!-- 영화 list -->
 									<div class="movie-list" align="center">
 										<ul class ="list"  style="none;">
-											<!-- 영화 제목 출력 -->
+											<!-- 영화 제목 출력 -->											
 											<c:forEach var="movieVO" items="${movieList }">
 												<li><button type="button" id="movie-btn" onclick="movieBtnClick(this.value)" value="${movieVO.movieNo}" >
 												<span ><img id="movie-age-${movieVO.movieAge }"  alt="${movieVO.movieAge }" src=""></span>
@@ -102,7 +98,7 @@
 								<div class="movie-poster">
 									<div class="poster-area">
 										<img class="poster " alt="poster_area"
-											src="/resources/img/poster_area1.png">
+											src="/resources/img/poster_area.png">
 									</div>
 								</div>
 								<!--// 영화 포스터 -->
@@ -148,9 +144,17 @@
  	<!-- 날짜버튼관련 script -->
 	<script type="text/javascript">
 		let date = new Date(); // 오늘날짜 설정
-		$('#dateVal').val(date);
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
 		
-		getDate(date); // 날짜를 출력하는 함수 
+		$('#dateVal').val(date);	 
+		
+		
+			getDate(date); // 날짜를 출력하는 함수 	
+		
+			
+			
 		
 		function getDate(date){ 
 				let list = ''; // 출력할 요소
@@ -186,16 +190,17 @@
 					} // end switch						
 						if(week=="일"){
 							list += '<button type="button" id="date-btn-sun" onclick="dateBtnClick(this.value)" value=" ' +  
-							date + ' "">' +"<div class='date-text'>" + date.getDate() + "."+ week + "<div>";  
+							date + ' "">' +"<div class='date-text' id='" + date.getDate() +"'>" + date.getDate() + "."+ week + "<div>";  
 							+'</button>' ;
 						}else if(week=="토"){
 							list += '<button type="button" id="date-btn-sat" onclick="dateBtnClick(this.value)" value=" ' +  
-							date + ' "">' +"<div class='date-text'>" + date.getDate() + "."+ week + "<div>";  
+							date + ' "">' +"<div class='date-text' id='" + date.getDate() +"'>"+ date.getDate() + "."+ week + "<div>";  
 							+'</button>' ;
 						} else {
 							list += '<button type="button" id="date-btn" onclick="dateBtnClick(this.value)" value=" ' +  
-							date + ' "">' +"<div class='date-text'>" +  date.getDate() + "."+ week + "<div>";  
+							date + ' "">' +"<div class='date-text' id='" + date.getDate() +"'>" +  date.getDate() + "."+ week + "<div>";  
 							+'</button>' ;
+							
 						} // end if
 				
 					// 버튼 출력					
@@ -210,6 +215,18 @@
 					
 				$('.date-btn-list').html(list);	// 버튼 추가
 				$('#dateVal').val(' ' + date);  // 오늘날짜 input에 넣어주기
+				choiceDate();
+				
+				function choiceDate(){
+					let dateValue = $('#dateVal').val();
+						console.log("ㅠㅠ"  +$('#dateVal').val());	
+						let day = dateValue.substring(9,11);
+						if(day<10){
+							day = day.substring(1,2);							
+						}
+						
+						$("#"+day).attr("id","day-choice");			
+				}
 				
 				} // end getDate()	
 		
@@ -223,7 +240,7 @@
 							date.setDate(date.getDate() -1);
 							console.log(date.getDate());
 							getDate(date);	
-							dateBtnClick(date);
+							dateBtnClick(" " +date);
 						}								
 					}); // end next-prev-click()
 					
@@ -231,18 +248,23 @@
 						date.setDate(date.getDate() +1);
 						console.log("첫번째 버튼 날짜 : " + date);
 						getDate(date);
-						dateBtnClick(' ' + date);
+						dateBtnClick( ' ' + date);
 						}); // end next-btn-click()
 						
-			
+						
 	</script>	
 
  	<!-- 날짜버튼을 클릭하면 영화제목과 영화스케줄을 가져오는 스크립트 -->
 	<script type="text/javascript">
 	dateBtnClick($('#dateVal').val());
+	
+	
+	
 	function dateBtnClick(dateVal){		
-			$('#dateVal').val(dateVal); // 날짜를 저장하는 input에 클릭한 값 넣어주기 
-			console.log()
+			$('#dateVal').val(dateVal); // 날짜를 저장하는 input에 클릭한 값 넣어주기 	
+			
+			
+			
 			dateVal = dateVal + '';
 		 	let yyyy = dateVal.substr(12,4);
             let mm = dateVal.substr(5,3);
@@ -280,16 +302,22 @@
 		let movieUrl = '/booking/movies/' +strDate;
 		
 		$.getJSON(movieUrl,function(movieList){
-			let list = '';			
+			let list = '';
+		/* 	if(movieList == ''){
+				list =  '<li><button type="button" id="movie-btn" onclick="movieBtnClick(this.value)"value=' +this.movieNo + '>'+
+					"상영가능한 영화가 없습니다." +
+  	    		'</button></li>'
+			} */
 			$(movieList).each(
-					function(){					
+					function(){
+						console.log("흠"+movieList);
 					list += '<li><button type="button" id="movie-btn" onclick="movieBtnClick(this.value)"value=' +this.movieNo + '>'+
-					'<span>' + '<img id="movie-age-' + this.movieAge + '"  alt="" src="">' + '</span>' +
+					'<span>' + '<img id="' + this.movieAge + '"  alt="" src="'+movieAge(this.movieAge)+'">' + '</span>' +
 	  	    		'<span>' + this.movieTitle + '</span>' +
 	  	    		'</button></li>'					
 				}); // end each()
 			 $('.movie-list').html(list);
-			 getAgePoster();
+
 			} // end callback()
 		); // end getJSON
 		
@@ -298,7 +326,12 @@
 		let scheduleUrl = '/booking/schedules/' + strDate;
 		
 		$.getJSON(scheduleUrl,function(scheduleList){		
-			list = '';			
+			list = '';
+			if(scheduleList == ''){
+				list =  '<li><button id="schedule-btn">'+
+				"상영가능한 영화가 없습니다." +
+  	    		'</button></li>'		
+			}
 			$(scheduleList).each(
 					function(){					
 						if(this.seatCount != 0){
@@ -322,11 +355,41 @@
 			 $('.schedule-list ul').html(list);			
 			} // end callback()
 		); // end getJSON		
-			$(".poster").attr("src", "/resources/img/poster_area1.png");
+			$(".poster").attr("src", "/resources/img/poster_area.png");
 			$(".poster").attr("alt", "poster_area");
+			
+			$(document).on("click",".date-btn-list button",function(){		
+				let dateValue = $('#dateVal').val();
+				console.log("아" + dateValue);
+				$("#day-choice").attr("id"," ");
+				$(".choice-btn").attr("class"," ");
+				$("button[value='" + dateValue + "']").attr("class", "choice-btn");
+				$(".choice-btn .date-text").attr("id","date-choice");
+			}) // end date-btn click()
 	} // end dateBtnClick()
 	
 
+	//  해당 영화연령의 포스터를 가져오는 함수
+	function movieAge(movieAge){
+		switch(movieAge){
+		case 0 :
+			movieAge = "https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-all.png";
+			break;
+		case 12 :
+			movieAge = "https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-12.png";
+			break;
+		case 15 :
+			movieAge = "https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-15.png";
+			break;
+		case 19 :
+			movieAge = "https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-19.png";
+			break;
+		}
+		return movieAge;
+	} //end movieAge
+	
+	
+	
 	</script>	
 
 	<!-- 영화버튼을 클릭하면 해당영화스케줄을 가져오는 스크립트 -->
@@ -372,8 +435,10 @@
 		let scheduleUrl = '/booking/schedules/' + strDate + '/' + movieNo;
 		
 		$.getJSON(scheduleUrl,function(scheduleList){
-			let list = '';			
+			let list = '';
+		
 			$(scheduleList).each(
+					
 					function(){
 						if(this.seatCount != 0){
 							list += '<li><button id="schedule-btn" onclick="scheduleBtnClick(this.value)" value=' +this.scheduleNo + '>'+
@@ -414,7 +479,7 @@
 $(function() {
   $("#datepicker").datepicker({
     showOn : "button",
-    buttonImage : "/resources/img/calender2.png",
+    buttonImage : "/resources/img/calender.png",
     buttonImageOnly : false,
     buttonText : "Select date",
     minDate : 0,
@@ -432,22 +497,6 @@ $(function() {
 }); // end document
 </script>			
 	
-	<!--  영화 연령 poster 삽입  -->
-	<script type="text/javascript">
-	getAgePoster();
-	function getAgePoster(){
-				 $("#movie-age-0").attr("src","https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-all.png");
-				 $("#movie-age-12").attr("src","https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-12.png");
-				 $("#movie-age-15").attr("src","https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-15.png");
-				 $("#movie-age-19").attr("src","https://img.megabox.co.kr/static/pc/images/common/txt/txt-age-small-19.png");
-				 $("#movie-age-0").attr("alt",0);
-				 $("#movie-age-12").attr("alt",12);
-				 $("#movie-age-15").attr("alt",15);
-				 $("#movie-age-19").attr("alt",19);
-	}
-		
-	
-	</script>
 	
 	<!-- 스케줄 클릭시 값 넘겨주기  -->
 	<script type="text/javascript">	

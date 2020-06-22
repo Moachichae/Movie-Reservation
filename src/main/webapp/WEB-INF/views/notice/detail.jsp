@@ -24,7 +24,7 @@
 		<div class="notice-body">
 			<textarea rows="20" cols="100" readonly>${noticeVO.noticeContent }</textarea>
 		</div>
-		<a href="/notice?page=${criteria.page }">목록</a>
+		<a href="/notice?page=${criteria.page }&keyword=${keyword }">목록</a>
 	</div>
 	
 	<jsp:include page="../footer.jsp"></jsp:include>

@@ -95,6 +95,27 @@
 	font-size: 14px;
 }
 
+#nameDiv {
+	display: none;
+	vertical-align: middle;
+}
+
+#phoneDiv {
+	display: none;
+	vertical-align: middle;
+}
+
+.changebx {
+	margin-top: 5px;
+	height: 20px;
+	padding: 0 5px;
+}
+
+.warning {
+	display: inline-block;
+	color: red;
+}
+
 .user-info #nameInfo {
 	font-size: 13px;
 }
