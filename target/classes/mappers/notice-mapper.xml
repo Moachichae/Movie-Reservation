@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 공지사항 전체 목록 가져오기 -->
 	<select id="noticeSelectAll" resultType="NoticeVO">
 		select ${notice_no}, ${notice_title}, ${notice_date} from ${notice} 
-		order by ${notice_no} desc
+		order by ${notice_date} desc
 	</select>
 	
 	<!-- 전체 공지사항 중 공지제목으로 검색 -->
@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			from (
 				select rownum rn, a.* 
 				from (
-					select * from ${notice} where ${notice_title} like #{keyword} order by ${notice_no} desc
+					select * from ${notice} where ${notice_title} like #{keyword} order by ${notice_date} desc
 				) a
 			) b where rn between #{c.start} and #{c.end}
 	</select>
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from (
 			select rownum rn, a.* 
 			from (
-				select * from ${notice} order by ${notice_no} desc
+				select * from ${notice} order by ${notice_date} desc
 			) a
 		) b where rn between #{start} and #{end}
 	</select>
