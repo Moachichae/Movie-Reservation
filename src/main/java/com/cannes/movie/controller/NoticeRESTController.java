@@ -22,7 +22,7 @@ import com.cannes.movie.service.NoticeService;
 @RestController
 public class NoticeRESTController {
 	private static final Logger logger = LoggerFactory.getLogger(NoticeRESTController.class);
-	private PageCriteria c = new PageCriteria();
+	private PageCriteria c;
 	
 	@Autowired
 	private NoticeService noticeService;
@@ -34,6 +34,13 @@ public class NoticeRESTController {
 		
 		String keyword = (String) request.getParameter("keyword");
 		logger.info(keyword);
+		
+		String page = (String) request.getParameter("page");
+		if(page == null) {
+			c = new PageCriteria();
+		} else {
+			c.setPage(Integer.parseInt(page));
+		}
 		
 		// c와 키워드를 같이 묶는 SearchVO
 		SearchVO search = new SearchVO(c, keyword);

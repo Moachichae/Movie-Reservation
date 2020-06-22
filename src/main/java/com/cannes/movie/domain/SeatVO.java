@@ -2,17 +2,17 @@ package com.cannes.movie.domain;
 
 public class SeatVO {
 	private int seatNo;
-	private int theaterNo;
+	private int scheduleNo;
 	private String seatRow;
 	private int seatColumn;
 	private String seatActive;
 	
 	// 생성자
 	public SeatVO() {}
-	public SeatVO(int seatNo, int theaterNo, String seatRow, int seatColumn, String seatActive) {
+	public SeatVO(int seatNo, int scheduleNo, String seatRow, int seatColumn, String seatActive) {
 		super();
 		this.seatNo = seatNo;
-		this.theaterNo = theaterNo;
+		this.scheduleNo = scheduleNo;
 		this.seatRow = seatRow;
 		this.seatColumn = seatColumn;
 		this.seatActive = seatActive;
@@ -26,11 +26,11 @@ public class SeatVO {
 	public void setSeatNo(int seatNo) {
 		this.seatNo = seatNo;
 	}
-	public int getTheaterNo() {
-		return theaterNo;
+	public int getScheduleNo() {
+		return scheduleNo;
 	}
-	public void setTheaterNo(int theaterNo) {
-		this.theaterNo = theaterNo;
+	public void setScheduleNo(int scheduleNo) {
+		this.scheduleNo = scheduleNo;
 	}
 	public String getSeatRow() {
 		return seatRow;
@@ -55,7 +55,7 @@ public class SeatVO {
 	@Override
 	public String toString() {
 		String str = "좌석 번호 : " + seatNo + "\n"
-					+ "상영관 번호 : " + theaterNo + "\n"
+					+ "상영관 번호 : " + scheduleNo + "\n"
 					+ "좌석 행 : " + seatRow + "\n"
 					+ "좌석 열 : " + seatColumn + "\n"
 					+ "좌석 배정 유/무 : " + seatActive;

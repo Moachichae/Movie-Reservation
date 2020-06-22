@@ -35,6 +35,8 @@ public class NoticeController {
 		}
 
 		List<NoticeVO> list = noticeService.readPage(c);
+		System.out.println(list);
+		
 		model.addAttribute("noticeList", list);
 
 		PageMaker maker = new PageMaker();
@@ -47,7 +49,7 @@ public class NoticeController {
 	} // end noticeMain()
 
 	@GetMapping(value = "/detail")
-	public String noticeDetail(int noticeNo, Model model, @ModelAttribute("criteria") PageCriteria c) {
+	public String noticeDetail(int noticeNo, Model model, @ModelAttribute("criteria") PageCriteria c, @ModelAttribute("keyword") String keyword) {
 		logger.info("detail() 호출");
 		NoticeVO vo = noticeService.readDetail(noticeNo);
 		System.out.println(vo);
@@ -55,14 +57,7 @@ public class NoticeController {
 		if (vo != null) {
 			model.addAttribute("noticeVO", vo);
 		}
-		
 		return "/notice/detail";
 	} // end noticeDetail()
-	
-	@GetMapping(value = "/notice/searchform")
-	public String noticeSearch() {
-		logger.info("detail() 호출");
-		return null;
-	} // end noticeSearch();
 	
 } // end NoticeController

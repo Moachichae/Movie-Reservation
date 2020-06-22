@@ -22,12 +22,6 @@ public class SeatServiceImple implements SeatService {
 		logger.info("create() 호출");
 		return seatDao.seatInsert(vo);
 	} // end create()
-
-	@Override
-	public List<SeatVO> readByTheater(int theaterNo) {
-		logger.info("readByTheater() 호출");
-		return seatDao.seatSelectByTheater(theaterNo);
-	} // end readByTheater()
 	
 	@Override
 	public List<SeatVO> readByScheduleNo(int scheduleNo) {

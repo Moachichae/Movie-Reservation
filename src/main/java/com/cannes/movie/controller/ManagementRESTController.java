@@ -82,8 +82,9 @@ public class ManagementRESTController {
 	public ResponseEntity<Integer> newPwdSettingPage(@RequestBody MemberVO vo, HttpServletRequest request) {
 		logger.info("mypage newPwdSettingPage() 호출");
 		HttpSession session = request.getSession();
-		vo.setMemberId((String) session.getAttribute("memberId"));
-		logger.info("id : " + (String) session.getAttribute("memberId") + " pw : " + vo.getMemberPw());
+		String id = (String) session.getAttribute("memberId");
+		vo.setMemberId(id);
+		logger.info("id : " + id + " pw : " + vo.getMemberPw());
 		
 		
 		int result = memberService.pwUpdate(vo);

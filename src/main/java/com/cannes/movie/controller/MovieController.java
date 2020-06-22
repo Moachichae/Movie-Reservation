@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cannes.movie.domain.MovieVO;
-import com.cannes.movie.domain.ReplyVO;
 import com.cannes.movie.domain.SearchVO;
 import com.cannes.movie.pageutil.PageCriteria;
 import com.cannes.movie.service.MovieService;
-import com.cannes.movie.service.ReplyService;
 
 @Controller
 public class MovieController {
@@ -57,7 +55,8 @@ public class MovieController {
 		
 		
 		if (result != null) {
-			model.addAttribute("movieDetail", result);			
+			model.addAttribute("movieDetail", result);
+			
 		} else {
 			return "/error";
 		}

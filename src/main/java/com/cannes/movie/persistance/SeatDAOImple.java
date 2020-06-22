@@ -24,12 +24,6 @@ public class SeatDAOImple implements SeatDAO {
 		logger.info("seatInsert 호출");
 		return sqlSession.insert(NAMESPACE + ".seatInsert", vo);
 	} // end seatInsert()
-
-	@Override
-	public List<SeatVO> seatSelectByTheater(int theaterNo) {
-		logger.info("seatSelectByTheater 호출");
-		return sqlSession.selectList(NAMESPACE + ".seatSelectByTheater", theaterNo);
-	} // end seatSelectByTheater()
 	
 	@Override
 	public List<SeatVO> seatSelectByScheduleNo(int scheduleNo) {

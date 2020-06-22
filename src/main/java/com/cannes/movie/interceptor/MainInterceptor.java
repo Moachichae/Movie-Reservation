@@ -38,7 +38,7 @@ public class MainInterceptor extends HandlerInterceptorAdapter {
 		logger.info("MainInterceptor - preHandle() 호출");
 		
 		// 영진위 api에서 값을 가져오기 위한 준비
-		String targetDt = "20200607"; // 주간(월~일) 박스오피스
+		String targetDt = "20200621"; // 주간(월~일) 박스오피스
 		String itemPerPage = "5";
 		String weekGb = "0";
 		String multiMovieYn = "";

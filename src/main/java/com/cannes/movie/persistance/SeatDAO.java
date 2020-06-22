@@ -9,7 +9,6 @@ public interface SeatDAO {
 	int seatInsert(SeatVO vo); // 좌석 등록
 	
 	/* 공용 메소드(회원, 관리자, 비회원) */
-	List<SeatVO> seatSelectByTheater(int theaterNo); // 좌석 가져오기(선택한 영화관)
 	List<SeatVO> seatSelectByScheduleNo(int scheduleNo); // 좌석 가져오기(상영관번호)
 	SeatVO seatSelectByNo(int seatNo); // 좌석 가져오기(좌석 번호) 
 	int seatUpdateOfActive(SeatVO vo); // 좌석 수정
