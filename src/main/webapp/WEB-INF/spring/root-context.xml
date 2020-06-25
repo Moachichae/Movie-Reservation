@@ -18,9 +18,9 @@
 		destroy-method="close">
 		<property name="dataSourceName" value="ds" />
 		<property name="URL"
-			value="jdbc:oracle:thin:@172.16.1.22:1521:orcl" />
-		<property name="user" value="movie" />
-		<property name="password" value="movie" />
+			value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name="user" value="scott" />
+		<property name="password" value="tiger" />
 	</bean>
 	<!-- MyBatis 프레임워크가 사용할 SqlSessionFactory Bean -->
 	<!-- DataSource를 작성하고 해당 ds를 참고 -->

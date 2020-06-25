@@ -16,13 +16,6 @@
 
 	<jsp:include page="../header.jsp"></jsp:include>
 	
-	<c:if test="${empty memberId }">
-		<script type='text/javascript'>
-			alert('로그인 후 이용가능한 서비스입니다.');
-			location.href="/main";
-		</script>
-	</c:if>
-	
 	<div class="pw-main">
 		<p class="pw-title">
 			<span>■</span>비밀번호 변경
